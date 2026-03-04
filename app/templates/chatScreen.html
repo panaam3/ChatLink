@@ -3,9 +3,24 @@
 {% block content %}
 <div class="main-chat-container">
     <div class="chat-overlay">
-        <div class="action-menu"></div>
+        <div class="action-menu">
+            <div class="logo-panel">
+                <p>ChatLink</p>
+            </div>
+            <div class="action-panel">
+                <a href="" id="chat-icon"><img src="{{ url_for('static', filename='images/chat.png') }}"></a>
+                <a href="" id="grp-icon"><img src="{{ url_for('static', filename='images/grps.png') }}"></a>
+            </div>
+            <div class="profile-panel">
+                <a href=""><img src="{{ url_for('static', filename='images/circle-user.png') }}"></a>
+                <a href=""><img src="{{ url_for('static', filename='images/leave.png') }}" alt=""></a>
+            </div>
+        </div>
         
-        <div class="recent-chat-container"></div>
+        <div class="recent-chat-container">
+            <div class="search-bar"><input type="search" name="" id="recent-chat-search"></div>
+            <div class="recent-chat"></div>
+        </div>
         
         <div class="messages-displayer"></div>
         
