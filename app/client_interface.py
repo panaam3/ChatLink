@@ -7,6 +7,7 @@ import json
 import threading
 import queue
 import csv
+from app import socketio
 
 
 class client_application:
@@ -218,7 +219,18 @@ class client_application:
 
         elif command == "SEND_TEXT":
             display_message = body.get("message", "")
+            sender = header.get("senderId", "Unknown") #added
             print(f"\n{header.get('senderId', 'Unknown')}: {display_message}")
+
+            #added
+            socketio.emit(
+                "new_message",
+                {
+                    "chat_name": sender,
+                    "message": display_message
+                },
+                room=self.username
+            )
             self.offline_data_rec(message_dict)
 
         elif command == "FILE_TRANSFER":

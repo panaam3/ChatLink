@@ -7,7 +7,7 @@ db.version(1).stores({
 document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
     socket.on('new_message', (data) => {
-        receivedMsgDisplayer(data.chat_name, data.message);
+        receivedMsgDisplay(data.chat_name, data.message);
     });
 });
 

@@ -3,6 +3,8 @@ from app.client_registry import clients
 from flask_login import login_user, logout_user, login_required, current_user
 from app.models import User
 from app.client_interface import client_application
+from app import socketio
+
 
 main = Blueprint("main", __name__)
 
@@ -97,7 +99,7 @@ def chat(friend):
         return redirect(url_for("main.signin"))
 
     online_users = client.view_online_users()
-
+    client.one_on_one_chat_connection(friend)
     return render_template("chatScreen.html", online_users=online_users, friend=friend)
 
 
@@ -115,6 +117,14 @@ def send_message():
     message = data.get("message")
 
     # client.send_message(friend, message)   # your protocol call
-    print(message)
+    client.send_message_121(message, friend)
+    socketio.emit(
+        "new_message",
+        {
+            "chat_name": current_user.id,
+            "message": message
+        },
+        room=friend
+    )
 
     return {"status": "ok"}
