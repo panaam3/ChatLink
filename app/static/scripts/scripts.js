@@ -9,7 +9,35 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('new_message', (data) => {
         receivedMsgDisplay(data.chat_name, data.message);
     });
+
+    socket.on('file_transfer', (data) => {
+
+        receivedMsgDisplayFile(data.chat_name, data.filename, data.fileData);
+    });
 });
+
+async function receivedMsgDisplayFile(chat_name, filename, file){
+    let messageDisplayer = document.querySelector(".messages-container");
+    const date_time = new Date().toISOString();
+    
+    let msgCont = document.createElement("div");
+    msgCont.className = "recieve-message";
+    msgCont.innerHTML = `
+                <h5>${chat_name}</h5>
+                <p>
+                    ${filename}
+                    <img src="/static/images/file.png">
+                </p>
+            </div>
+    `;
+    console.log("came here")
+
+    const newMsg = await buildMsg("them", message, date_time);
+    await saveMessage(chat_name, newMsg);
+
+    messageDisplayer.appendChild(msgCont);
+    console.log(message);
+}
 
 async function messageDisplay(){
     let input = document.querySelector("#message-input");

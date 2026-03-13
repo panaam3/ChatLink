@@ -538,7 +538,8 @@ class client_application:
                 "file_transfer",
                 {
                     "chat_name": sender,
-                    "message": file
+                    "filename": filename,
+                    "fileData": file
                 },
                 room=self.username
             )
