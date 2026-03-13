@@ -117,6 +117,14 @@ def send_message():
     data = request.json
     friend = data.get("friend")
     message = data.get("message")
+    file = data.get("file")
+
+    print(file)
+
+    if file:
+        file_status = client.send_file(file, friend)
+        if not file_status:
+            print("File not sent")
 
     print(message)
 

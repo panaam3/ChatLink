@@ -15,8 +15,33 @@ async function messageDisplay(){
     let input = document.querySelector("#message-input");
     let messageDisplayer = document.querySelector(".messages-container");
     const chat_name = messageDisplayer.dataset.friend;
-    let file = document.querySelector("#file-upload")
-   
+    const files = document.querySelector("#file-upload").files
+    let sent_file=null;
+
+    let msgCont = document.createElement("div");
+    msgCont.className = "send-message";
+
+    if (files){
+        file= files[0];
+        const bytes = await file.arrayBuffer();
+        console.log(bytes)
+        sent_file = {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            data: bytes
+        };
+        msgCont.innerHTML = `
+            <div class="chat-box">
+                <p>
+                    ${file.name}
+                    <img src="/static/images/file.png">
+                </p>
+            </div>
+        `;
+        messageDisplayer.appendChild(msgCont);
+    }
+
     console.log(chat_name)
 
     console.log("Welcome to chatlink");
@@ -26,9 +51,6 @@ async function messageDisplay(){
 
     const date_time = new Date().toISOString();
 
-    let msgCont = document.createElement("div");
-
-    msgCont.className = "send-message";
     msgCont.innerHTML = `
                 <div class="chat-box">
                     <p>
@@ -53,7 +75,8 @@ async function messageDisplay(){
         },
         body: JSON.stringify({
             friend: `${chat_name}`,
-            message: `${message}`
+            message: `${message}`,
+            file: `${sent_file}`
         })
     });
 }
