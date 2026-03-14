@@ -75,6 +75,25 @@ def logout():
     return redirect(url_for("main.signin"))
 
 
+@main.route("/create-group", methods=["GET", "POST"])
+@login_required
+def create_group():
+    client = clients.get(current_user.id)
+    if request.method == "POST":
+        print("Method >>> Post")
+        grp_name = request.form["gname"]
+        grp_members = request.form["members"]
+
+        print(grp_name, grp_members)
+
+        grp_members = grp_members.split(", ")
+        print(grp_name, grp_members)
+
+        client.create_group(grp_name, grp_members)
+        
+        return redirect(url_for("main.group_home"))
+    return render_template("group_form.html")
+
 @main.route("/home")
 @login_required
 def chat_home():
@@ -89,6 +108,22 @@ def chat_home():
     # print(online_users)
 
     return render_template("chatHome.html", online_users=online_users)
+
+
+@main.route("/groups", methods=["GET", "POST"])
+@login_required
+def group_home():
+    client = clients.get(current_user.id)
+
+    if not client:
+        return redirect(url_for("main.signin"))
+
+    online_users = client.view_groups() or []
+
+    # print(online_users)
+
+    return render_template("groups.html", online_users=online_users)
+
 
 @main.route("/chat/<friend>")
 @login_required
@@ -118,8 +153,6 @@ def send_message():
     friend = data.get("friend")
     message = data.get("message")
     file_data = data.get("file")
-    
-    print(file_data["filename"])
 
     print(message)
     if message != "":
@@ -129,7 +162,7 @@ def send_message():
     #     return {"status":"failed"}
     
     if file_data:
-        client.send_file(file_data["url"], file_data["type"], file_data["size"], friend)
+        client.send_file(file_data["url"], file_data["filename"], file_data["type"], file_data["size"], friend)
         print("sending file...")
 
     return {"status": "ok"}

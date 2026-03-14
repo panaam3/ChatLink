@@ -592,3 +592,89 @@ body{
         }
     }
 }
+
+.group-form-container{
+        margin: auto;
+        min-width: 30rem;
+        min-height: 25rem;
+        background: transparent;
+        border-radius: 0.8rem;
+        box-shadow: 0 0 5rem #0D1F4A60;
+        text-align: center;
+        color: #6AAEF8;
+        font-weight: bold;
+        padding: 5rem 0 0 0;
+
+        h1{
+            color: #080F1E;
+            text-shadow: 0 0 0.5rem #0D1F4A;
+            font-family: 'Authentic70s', "Edu NSW ACT Hand Cursive", cursive;
+            font-size: 3rem;
+        }
+
+        p{
+            color: #0D1F4A;
+            margin: -1rem 0 0 0;
+            text-shadow: 0 0 0 #7DD4D0;
+            font-family: 'Authentic70s', "Edu NSW ACT Hand Cursive", cursive;
+            font-size: 1.5rem;
+
+            span{
+                
+                font-size: 2rem;
+                font-weight: lighter;
+                font-style: italic;
+            }
+        }
+
+        form{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: inherit;
+            min-width: fit-content;
+            background: transparent;
+
+            label{
+                margin: 0 0 0.2rem -16rem;
+            }
+            #confirm-password-label{
+                margin: 0 0 0.2rem -12rem;
+            }
+
+            input{
+                width: 20rem;
+                min-height: 2rem;
+                margin: 0 0 2rem 0;
+                border-radius: 0.5rem;
+                border: none;
+                font-weight: 600;
+                color: #0D1F4A;
+            }
+            input[type="text"], input[type="password"]{
+                padding: 0 0 0 0.5rem;
+
+                &:focus{
+                    outline: none;
+                    border: none;
+                    box-shadow: 0 0 0.8rem #3AADA8;
+                }
+
+                &::placeholder{
+                    font-weight: 600;
+                }
+            }
+            input[type="submit"] {
+                margin: 2rem;
+                background: transparent;
+                border: 1.2px solid #6AAEF8;
+                color: #6AAEF8;
+
+                &:hover{
+                    cursor: pointer;
+                    box-shadow: 0 0 0.8rem #7DD4D060;
+                }
+            }
+        }
+    }

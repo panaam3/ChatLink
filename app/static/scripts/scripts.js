@@ -11,13 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     socket.on('uploaded_files', (data) => {
-
-        receivedMsgDisplayFile(data.chat_name, data.url);
+        console.log("received a file")
+        console.log(data.url)
+        receivedMsgDisplayFile(data.chat_name, data.url, data.name);
     });
 });
 
 //receiving files
-async function receivedMsgDisplayFile(chat_name, filename){
+async function receivedMsgDisplayFile(chat_name, fileURL, filename){
     let messageDisplayer = document.querySelector(".messages-container");
     const date_time = new Date().toISOString();
     
@@ -25,9 +26,9 @@ async function receivedMsgDisplayFile(chat_name, filename){
     msgCont.className = "recieve-message";
     msgCont.innerHTML = `
     <div class="chat-box">
-        <a href="${data.url}" download>
+        <a href="${fileURL}" download>
             <img src="/static/images/file.png">
-            ${file.name}
+            ${filename}
         </a>
     </div>
     `;
@@ -60,15 +61,13 @@ async function messageDisplay(){
     const files = document.querySelector("#file-upload").files
     let sent_file = null;
 
-    const formData = new FormData();
-
     let msgCont = document.createElement("div");
     msgCont.className = "send-message";
 
     if(files.length > 0){
-        file = files[0];
+        const file = files[0];
         //console.log(file);
-        const data = await fileURL(file, formData);
+        const data = await fileURL(file);
         //console.log(data.url); // URL of uploaded file
         //console.log(data);
 

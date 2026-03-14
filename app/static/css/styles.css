@@ -517,4 +517,84 @@ body {
 }
 .main-chat-container .chat-overlay .messages-displayer .messages-container .message-bar textarea::-webkit-scrollbar {
   display: none;
+}
+
+.group-form-container {
+  margin: auto;
+  min-width: 30rem;
+  min-height: 25rem;
+  background: transparent;
+  border-radius: 0.8rem;
+  box-shadow: 0 0 5rem rgba(13, 31, 74, 0.3764705882);
+  text-align: center;
+  color: #6AAEF8;
+  font-weight: bold;
+  padding: 5rem 0 0 0;
+}
+.group-form-container h1 {
+  color: #080F1E;
+  text-shadow: 0 0 0.5rem #0D1F4A;
+  font-family: "Authentic70s", "Edu NSW ACT Hand Cursive", cursive;
+  font-size: 3rem;
+}
+.group-form-container p {
+  color: #0D1F4A;
+  margin: -1rem 0 0 0;
+  text-shadow: 0 0 0 #7DD4D0;
+  font-family: "Authentic70s", "Edu NSW ACT Hand Cursive", cursive;
+  font-size: 1.5rem;
+}
+.group-form-container p span {
+  font-size: 2rem;
+  font-weight: lighter;
+  font-style: italic;
+}
+.group-form-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: inherit;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  background: transparent;
+}
+.group-form-container form label {
+  margin: 0 0 0.2rem -16rem;
+}
+.group-form-container form #confirm-password-label {
+  margin: 0 0 0.2rem -12rem;
+}
+.group-form-container form input {
+  width: 20rem;
+  min-height: 2rem;
+  margin: 0 0 2rem 0;
+  border-radius: 0.5rem;
+  border: none;
+  font-weight: 600;
+  color: #0D1F4A;
+}
+.group-form-container form input[type=text], .group-form-container form input[type=password] {
+  padding: 0 0 0 0.5rem;
+}
+.group-form-container form input[type=text]:focus, .group-form-container form input[type=password]:focus {
+  outline: none;
+  border: none;
+  box-shadow: 0 0 0.8rem #3AADA8;
+}
+.group-form-container form input[type=text]::-moz-placeholder, .group-form-container form input[type=password]::-moz-placeholder {
+  font-weight: 600;
+}
+.group-form-container form input[type=text]::placeholder, .group-form-container form input[type=password]::placeholder {
+  font-weight: 600;
+}
+.group-form-container form input[type=submit] {
+  margin: 2rem;
+  background: transparent;
+  border: 1.2px solid #6AAEF8;
+  color: #6AAEF8;
+}
+.group-form-container form input[type=submit]:hover {
+  cursor: pointer;
+  box-shadow: 0 0 0.8rem rgba(125, 212, 208, 0.3764705882);
 }/*# sourceMappingURL=styles.css.map */

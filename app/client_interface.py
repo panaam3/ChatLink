@@ -12,7 +12,7 @@ from app import socketio
 
 class client_application:
     def __init__(self, ip_addr="0.0.0.0", peer_port=8000):
-        self.server_ip = "172.30.32.1"
+        self.server_ip = "196.42.96.83"
         self.server_port = 12000
         self.username = None
         self.ip_addr = ip_addr
@@ -37,7 +37,7 @@ class client_application:
         self.peer_connected_event = threading.Event()
 
     # TCP / UDP CONNECTIONS
-    def tcp_connect(self, server_ip="172.30.32.1", server_port=12000):
+    def tcp_connect(self, server_ip="196.42.96.83", server_port=12000):
         self.server_ip = server_ip
         self.server_port = server_port
 
@@ -240,7 +240,8 @@ class client_application:
 
         elif command == "FILE_TRANSFER":
             PATH = "app/static/uploads/received" #ADDED BY ME
-            filename = os.path.join(PATH, body.get("fileName")) #CHANGED BY ME
+            name = os.path.basename(body.get("fileName"))
+            filename = os.path.normpath(os.path.join(PATH, name)) #CHANGED BY ME
             filesize = body.get("fileSize")
             sender = header.get("senderId", "Unknown")
             print(f"\nReceiving file: {filename} ({filesize} bytes)")
@@ -294,14 +295,17 @@ class client_application:
         while True:
             try:
                 with self.peer_lock:
+                    print("I'm in")
                     current_peer_socket = self.peer_socket
 
                 if current_peer_socket is None:
+                    print("I'm checking conncection to peer")
                     break
 
                 msg = current_peer_socket.recv(2048).decode()
                 if msg:
-                   buffer += msg
+                   buffer+=msg
+                
 
                 while '\n' in buffer:
                     message, buffer = buffer.split('\n', 1)
@@ -496,12 +500,10 @@ class client_application:
             row = [new_row_dict.get(header, '') for header in headers]
             writer.writerow(row)
     
-    def send_file(self, filepath, type, size, target):
+    def send_file(self, filepath, filename, type, size, target):
         # filename = os.path.basename(filepath)
-        filename = os.path.join("../",filepath)
-        filesize = size
 
-        body = {"target": target, "fileName": filename, "fileType": type, "fileSize": filesize}
+        body = {"target": target, "fileName": filename, "fileType": type, "fileSize": size}
         message = self.send_data("FILE_TRANSFER", body)
 
         with self.peer_lock:
@@ -523,6 +525,7 @@ class client_application:
 
     def receive_file(self, sock, filename, filesize, sender):
         received_bytes = 0
+        fname = os.path.basename(filename)
         with open(f"{filename}", "wb") as file:
             while received_bytes < filesize:
                 chunk = sock.recv(min(4096, filesize - received_bytes))
@@ -536,7 +539,8 @@ class client_application:
             "uploaded_files",
             {
                 "chat_name": sender,
-                "url":filename
+                "url": filename,
+                "name": fname
             },
             room=self.username
         )
@@ -751,6 +755,32 @@ class client_application:
         self.send_message_tcp(logout_message)
         time.sleep(0.5)
         self.close_connection()
+
+
+    #aaded by me
+    def view_groups(self):
+        """Request available groups from the server and return them"""
+
+        self.waiting_for_response = True
+
+        message = self.send_command("VIEW_GROUPS", {})
+        self.send_message_tcp(message)
+
+        try:
+            response = self.message_queue.get(timeout=5)
+            response = json.loads(response)
+
+            body = response.get("body", {})
+            groups = body.get("groups", [])
+
+        except queue.Empty:
+            print("Server timeout")
+            self.waiting_for_response = False
+            return []
+
+        self.waiting_for_response = False
+        return groups
+
 
 
 def main():
