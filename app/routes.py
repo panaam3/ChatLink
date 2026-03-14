@@ -140,7 +140,6 @@ def chat(friend):
     if not client:
         return redirect(url_for("main.signin"))
 
-    print("Came here, GOT lost")
     online_users = client.view_online_users()
     connection_status = client.one_on_one_chat_connection(friend)
     if not connection_status:
@@ -178,9 +177,11 @@ def send_message():
 
     print(message)
     if message != "" and msg_type:
+        print("Sending message...")
         sent_status = client.send_message_121(message, name)
     
     if message != "" and (not msg_type):
+        print("Sending gmessage...")
         client.send_message_group(message, name)
     
     if file_data:

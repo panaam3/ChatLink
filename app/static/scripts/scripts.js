@@ -54,100 +54,8 @@ async function fileURL(file){
     return data;
 }
 
-// async function messageDisplay(){
-//     let input = document.querySelector("#message-input");
-//     let messageDisplayer = document.querySelector(".messages-container");
-//     const chat_name = messageDisplayer.dataset.friend;
-//     const files = document.querySelector("#file-upload").files
-//     let sent_file = null;
-
-//     let msgCont = document.createElement("div");
-//     msgCont.className = "send-message";
-
-//     if(files.length > 0){
-//         const file = files[0];
-//         //console.log(file);
-//         const data = await fileURL(file);
-//         //console.log(data.url); // URL of uploaded file
-//         //console.log(data);
-
-//         sent_file = {
-//             filename: file.name,
-//             type:file.type,
-//             size: file.size,
-//             url: data.url
-//         }
-
-//         msgCont.innerHTML = fileMsgBuild(file);
-//         messageDisplayer.appendChild(msgCont);
-//     }
-
-//     const message = input.value;
-
-//     if(message.trim() === ""){
-//         await fetch("/send_message", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify({
-//                 friend: `${chat_name}`,
-//                 message: `${message}`,
-//                 file: sent_file
-//             })
-//         });
-//         return;
-//     }
-
-//     const date_time = new Date().toISOString();
-
-//     msgCont.innerHTML = `
-//                 <div class="chat-box">
-//                     <p>
-//                     ${message}
-//                     </p>
-//                 </div>
-//     `;
-    
-//     newMsg = await buildMsg("me", message, date_time);
-//     await saveMessage(chat_name, newMsg);
-
-
-//     messageDisplayer.appendChild(msgCont);
-//     console.log(message);
-
-//     input.value = "";
-
-//     console.log(sent_file)
-
-//     await fetch("/send_message", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({
-//             friend: `${chat_name}`,
-//             message: `${message}`,
-//             file: sent_file
-//         })
-//     });
-
-// }
-
-// function fileMsgBuild(file){
-//         return `
-//             <div class="chat-box">
-//                 <p>
-//                     ${file.name}
-//                     <img src="/static/images/file.png">
-//                 </p>
-//             </div>
-//         `;
-// }
-
-
 async function messageDisplay(){
-    let messageDisplayer = document.querySelector(".grp-msg-container");
+    let messageDisplayer = document.querySelector(".messages-container");
     
     const files = document.querySelector("#file-upload").files
     let sent_file = null;
@@ -169,6 +77,7 @@ async function messageDisplay(){
     }
 
     const name = messageDisplayer.dataset.friend;
+    
     let input = document.querySelector("#message-input");
     const message = input.value;
     const person = isPerson(name);
@@ -200,7 +109,7 @@ async function messageDisplay(){
     `;
     
     newMsg = await buildMsg("me", message, date_time);
-    await saveMessage(chat_name, newMsg);
+    await saveMessage(name, newMsg);
 
 
     messageDisplayer.appendChild(msgCont);

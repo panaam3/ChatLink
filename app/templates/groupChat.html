@@ -62,14 +62,14 @@
                 </div>
             </div>
 
-            <div class="messages-container grp-msg-container" data-friend="{{ grp }}-{{current_user.id}}">
+            <div class="messages-container" data-friend="{{ grp }}-{{current_user.id}}">
                 <div class="message-bar">
                     <textarea name="message" id="message-input" placeholder="Type your message..."></textarea>
                     <label for="message-send-btn">
                         <img src="{{ url_for('static', filename='images/send.png') }}">
                         <input type="button" value="send" id="message-send-btn" style="visibility: hidden;"
                             onclick="
-                            gmessageDisplay();
+                            messageDisplay();
                             "
                         >
                     </label>
