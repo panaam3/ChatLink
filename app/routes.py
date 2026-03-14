@@ -84,14 +84,16 @@ def create_group():
         grp_name = request.form["gname"]
         grp_members = request.form["members"]
 
-        print(grp_name, grp_members)
+        # print(grp_name, grp_members)
 
         grp_members = grp_members.split(", ")
-        print(grp_name, grp_members)
+        # print(grp_name, grp_members)
 
-        client.create_group(grp_name, grp_members)
-        
-        return redirect(url_for("main.group_home"))
+        status = client.create_group(grp_name, grp_members)
+        if status:
+            return redirect(url_for("main.group_home"))
+        else:
+            flash("An error occured. Group was not created")
     return render_template("group_form.html")
 
 @main.route("/home")

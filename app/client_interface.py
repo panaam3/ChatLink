@@ -12,7 +12,7 @@ from app import socketio
 
 class client_application:
     def __init__(self, ip_addr="0.0.0.0", peer_port=8000):
-        self.server_ip = "196.42.96.83"
+        self.server_ip = "172.30.32.1"
         self.server_port = 12000
         self.username = None
         self.ip_addr = ip_addr
@@ -37,7 +37,7 @@ class client_application:
         self.peer_connected_event = threading.Event()
 
     # TCP / UDP CONNECTIONS
-    def tcp_connect(self, server_ip="196.42.96.83", server_port=12000):
+    def tcp_connect(self, server_ip="172.30.32.1", server_port=12000):
         self.server_ip = server_ip
         self.server_port = server_port
 
@@ -718,11 +718,29 @@ class client_application:
         return True
 
     def create_group(self, group_name, members):
+        print("Client_Application",group_name, members)
         create_group_message = self.send_command(
-            "CREATE_GROUP",
-            {"group_name": group_name, "members": members}
+            "CREATE",
+            {"user": self.username,"group-name": group_name, "members": members}
         )
+        print("Sending message:", create_group_message)
         self.send_message_tcp(create_group_message)
+
+        #RECENT CHAT EDITION
+        self.waiting_for_response = True
+
+        try:
+            response = self.message_queue.get(timeout=5)
+            #added
+            header = response.get("header", {})
+            status = header.get("command", "")
+            print("Server response:", response)
+            if status=="ACK":
+                return True
+        except:
+            print("No server response")
+
+        self.waiting_for_response = False
 
     def view_online_users(self):
 
